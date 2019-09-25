@@ -1,11 +1,13 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'edu.pucmm'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
+mainClassName = "edu.pucmm.httpclient.Main"
 
 repositories {
     mavenCentral()
@@ -16,4 +18,8 @@ dependencies {
 
     // jsoup HTML parser library @ https://jsoup.org/
     compile 'org.jsoup:jsoup:1.12.1'
+}
+
+run {
+    standardInput = System.in
 }
