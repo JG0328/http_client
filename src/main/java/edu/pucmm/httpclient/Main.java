@@ -23,11 +23,29 @@ public class Main {
 
             // Contar la cantidad de parrafos
             Elements ps = doc.select("p");
-            System.out.println("Cantidad de parrafos: " + ps.size());
+            System.out.println("Total de parrafos: " + ps.size());
 
             // Contar la cantidad de imagenes dentro de parrafos
             Elements imgs = doc.select("p").select("img");
-            System.out.println("Cantidad de imagenes dentro de parrafos: " + imgs.size());
+            System.out.println("Total de imagenes dentro de parrafos: " + imgs.size());
+
+            // Clasificando los forms por metodos GET y POST
+            Elements forms = doc.select("form");
+            System.out.println("Total de formularios: " + forms.size());
+            System.out.println();
+
+            int getForms = 0, postForms = 0;
+
+            for (Element f : forms) {
+                if (f.attr("method").equalsIgnoreCase("get")) {
+                    getForms++;
+                } else if (f.attr("method").equalsIgnoreCase("post")) {
+                    postForms++;
+                }
+            }
+
+            System.out.println("GET: " + getForms);
+            System.out.println("POST: " + postForms);
 
 
         } catch (IOException e) {
