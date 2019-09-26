@@ -20,10 +20,12 @@ public class Main {
             Document doc = Jsoup.connect(myUrl).get();
 
             // Contar la cantidad de lineas
+            String docParse = Jsoup.connect(myUrl).execute().body();
+            System.out.println("Total de lineas: " + getLines(docParse));
 
             // Contar la cantidad de parrafos
-            Elements ps = doc.select("p");
-            System.out.println("Total de parrafos: " + ps.size());
+
+            System.out.println("Total de parrafos: " + getParagraphs(doc));
 
             // Contar la cantidad de imagenes dentro de parrafos
             Elements imgs = doc.select("p").select("img");
@@ -51,5 +53,14 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static int getLines(String str) {
+        return str.split("\n").length;
+    }
+
+    private static int getParagraphs(Document doc) {
+        Elements ps = doc.select("p");
+        return ps.size();
     }
 }
