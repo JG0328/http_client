@@ -21,20 +21,18 @@ public class Main {
 
             // Contar la cantidad de lineas
             String docParse = Jsoup.connect(myUrl).execute().body();
-            System.out.println("Total de lineas: " + getLines(docParse));
+            System.out.println("\nTotal de lineas: " + getLines(docParse));
 
             // Contar la cantidad de parrafos
 
             System.out.println("Total de parrafos: " + getParagraphs(doc));
 
             // Contar la cantidad de imagenes dentro de parrafos
-            Elements imgs = doc.select("p").select("img");
-            System.out.println("Total de imagenes dentro de parrafos: " + imgs.size());
+            System.out.println("Total de imagenes dentro de parrafos: " + getImagesInParagraphs(doc));
 
             // Clasificando los forms por metodos GET y POST
             Elements forms = doc.select("form");
-            System.out.println("Total de formularios: " + forms.size());
-            System.out.println();
+            System.out.println("\nTotal de formularios: " + forms.size());
 
             int getForms = 0, postForms = 0;
 
@@ -62,5 +60,10 @@ public class Main {
     private static int getParagraphs(Document doc) {
         Elements ps = doc.select("p");
         return ps.size();
+    }
+
+    private static int getImagesInParagraphs(Document doc) {
+        Elements imgs = doc.select("p").select("img");
+        return imgs.size();
     }
 }
