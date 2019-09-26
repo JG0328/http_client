@@ -33,20 +33,10 @@ public class Main {
             // Clasificando los forms por metodos GET y POST
             Elements forms = doc.select("form");
             System.out.println("\nTotal de formularios: " + forms.size());
+            getDifferentForms(forms);
 
-            int getForms = 0, postForms = 0;
-
-            for (Element f : forms) {
-                if (f.attr("method").equalsIgnoreCase("get")) {
-                    getForms++;
-                } else if (f.attr("method").equalsIgnoreCase("post")) {
-                    postForms++;
-                }
-            }
-
-            System.out.println("GET: " + getForms);
-            System.out.println("POST: " + postForms);
-
+            // Obteniendo los input de cada form
+            getInputsInForms(forms);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,5 +55,34 @@ public class Main {
     private static int getImagesInParagraphs(Document doc) {
         Elements imgs = doc.select("p").select("img");
         return imgs.size();
+    }
+
+    private static void getDifferentForms(Elements forms) {
+        int getForms = 0, postForms = 0;
+
+        for (Element f : forms) {
+            if (f.attr("method").equalsIgnoreCase("get")) {
+                getForms++;
+            } else if (f.attr("method").equalsIgnoreCase("post")) {
+                postForms++;
+            }
+        }
+
+        System.out.println("GET: " + getForms);
+        System.out.println("POST: " + postForms);
+
+        System.out.println();
+    }
+
+    private static void getInputsInForms(Elements forms) {
+        for (int i = 0; i < forms.size(); i++) {
+            System.out.println("Form #" + (i + 1));
+            Elements inputs = forms.get(i).select("input");
+            System.out.println("Tiene " + inputs.size() + " input");
+            for (int j = 0; j < inputs.size(); j++) {
+                System.out.println("Input #" + (j + 1) + ", type: " + inputs.get(j).attr("type"));
+            }
+            System.out.println();
+        }
     }
 }
