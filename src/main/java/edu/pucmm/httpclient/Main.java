@@ -3,7 +3,6 @@ package edu.pucmm.httpclient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -37,6 +36,9 @@ public class Main {
 
             // Obteniendo los input de cada form
             getInputsInForms(forms);
+
+            // Enviar peticion
+            sendRequest(forms, myUrl);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,6 +85,29 @@ public class Main {
                 System.out.println("Input #" + (j + 1) + ", type: " + inputs.get(j).attr("type"));
             }
             System.out.println();
+        }
+    }
+
+    private static void sendRequest(Elements forms, String myUrl) {
+        int i = 0;
+        for (Element form : forms) {
+            if (form.attr("method").equalsIgnoreCase("post")) {
+                String url = "";
+                if (form.attr("action").contains(myUrl)) {
+                    url = form.attr("action");
+                } else {
+                    url = myUrl + form.attr("action");
+                }
+                try {
+                    Document request = Jsoup.connect(url).header("matricula", "20160290").data("asignatura", "practica1").post();
+                    System.out.println("Respuesta Form#" + (i + 1) + ": ");
+                    System.out.println(request.html());
+                    System.out.println();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            i++;
         }
     }
 }
