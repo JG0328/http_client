@@ -93,11 +93,22 @@ public class Main {
         for (Element form : forms) {
             if (form.attr("method").equalsIgnoreCase("post")) {
                 String url = "";
-                if (form.attr("action").contains(myUrl)) {
-                    url = form.attr("action");
+
+                if (myUrl.contains("https")) {
+                    url = myUrl;
                 } else {
-                    url = myUrl + form.attr("action");
+                    String protocol = myUrl.substring(0, 4);
+                    if (protocol.equalsIgnoreCase("https")) {
+                        String tmp = myUrl.substring(8);
+                        String[] tmpUrl = tmp.split("/");
+                        url = tmpUrl[0] + form.attr("action");
+                    } else {
+                        String tmp = myUrl.substring(7);
+                        String[] tmpUrl = tmp.split("/");
+                        url = protocol + "://" + tmpUrl[0] + form.attr("action");
+                    }
                 }
+
                 try {
                     Document request = Jsoup.connect(url).header("matricula", "20160290").data("asignatura", "practica1").post();
                     System.out.println("Respuesta Form#" + (i + 1) + ": ");
